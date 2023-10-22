@@ -13,16 +13,17 @@ namespace QAautoCNNProject
             string mainPage = "https://edition.cnn.com/";
             driver.Url = mainPage;
 
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
             // Accept all coockies
             IWebElement acceptAllCoockiesButtom = driver.FindElement(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]"));
             acceptAllCoockiesButtom.Click();
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
 
-            static void CheckMainPageMenuItem(IWebDriver driver, string xPath, string keyWord)
+            static void CheckMainPageMenuItem(IWebDriver driver, string keyWord)
             {
+                string xPath = $"//a[@class='header__nav-item-link'][contains(@data-zjs-component_text, '{keyWord}')]";
                 IWebElement menuItem = driver.FindElement(By.XPath(xPath));
                 menuItem.Click();
                 string title = driver.Title;
@@ -39,17 +40,17 @@ namespace QAautoCNNProject
                 driver.Url = "https://edition.cnn.com/";
             }
             
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[1]/a", "US");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[2]/a", "World");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[3]/a", "Politics");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[4]/a", "Business");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[5]/a", "Opinion");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[6]/a", "Health");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[7]/a", "Entertainment");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[8]/a", "Style");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[9]/a", "Travel");
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[10]/a", "Sports"); // bug found
-            CheckMainPageMenuItem(driver, "//*[@id=\"pageHeader\"]/div/div/div[1]/div[1]/nav/div/div[11]/a", "Video");
+            CheckMainPageMenuItem(driver, "US");
+            CheckMainPageMenuItem(driver, "World");
+            CheckMainPageMenuItem(driver, "Politics");
+            CheckMainPageMenuItem(driver, "Business");
+            CheckMainPageMenuItem(driver, "Opinion");
+            CheckMainPageMenuItem(driver, "Health");
+            CheckMainPageMenuItem(driver, "Entertainment");
+            CheckMainPageMenuItem(driver, "Style");
+            CheckMainPageMenuItem(driver, "Travel");
+            CheckMainPageMenuItem(driver, "Sports"); // bug found
+            CheckMainPageMenuItem(driver, "Video");
 
             
 
