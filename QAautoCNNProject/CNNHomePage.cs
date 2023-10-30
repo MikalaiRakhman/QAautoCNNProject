@@ -1,10 +1,12 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+using System.Linq;
 
 
 namespace QAautoCNNProject
 {
-    internal class CNNHomePage
+    public class CNNHomePage
     {
         IWebDriver _webDriver;
         const string HOME_PAGE_URL = "https://edition.cnn.com/";
@@ -15,7 +17,7 @@ namespace QAautoCNNProject
             _webDriver.Manage().Window.Maximize();
 
             WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
-            wait.Until(x => x.FindElement(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]")));
+            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]")));
 
             // Accept all coockies
             _webDriver.FindElement(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]")).Click();
@@ -25,8 +27,12 @@ namespace QAautoCNNProject
 
         public bool CheckPageLink(string keyWord)
         {
-            string xPath = $"//a[@class='header__nav-item-link'][contains(@data-zjs-component_text, '{keyWord}')]";
-            IWebElement menuItem = _webDriver.FindElement(By.XPath(xPath));
+            WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
+            string xPath = "//a[contains (@class, 'header__nav-item-link' )]";
+            
+            var menuItem = wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath(xPath)))
+                               .Where(x => x.Displayed && x.Enabled && x.Text.Contains(keyWord)).First();
+
             menuItem.Click();
             string title = _webDriver.Title;
             string newUrl = _webDriver.Url;
