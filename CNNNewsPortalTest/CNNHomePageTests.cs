@@ -10,6 +10,14 @@ namespace CNNNewsPortalTest
     [TestClass]
     public class CNNHomePageTests
     {
+        IWebDriver _driver;
+
+        [TestInitialize] 
+        public void Initialize() 
+        {
+            _driver = new ChromeDriver();
+        }
+
         [TestMethod]
         [DataRow("US")]
         [DataRow("World")]
@@ -24,13 +32,63 @@ namespace CNNNewsPortalTest
         [DataRow("Video")]
         public void CorrectMenuPointLinksTest(string menuItem)
         {
-            IWebDriver driver = new ChromeDriver();
-
-            CNNHomePage homePage = new CNNHomePage(driver);
-
+            CNNHomePage homePage = new CNNHomePage(_driver);
             Assert.IsTrue(homePage.CheckPageLink(menuItem));
 
-            driver.Close();
+        }
+
+        [TestCleanup]
+        public void Cleanup() 
+        {
+            _driver.Close();
+        }
+
+
+    }
+
+    [TestClass]
+    public class CNNSearchPageTests
+    {
+        IWebDriver _driver;
+        [TestInitialize]       
+
+        public void Initialize()
+        {
+            _driver = new ChromeDriver();
+        }
+
+        [TestMethod]
+        [DataRow("Poland")]
+        [DataRow("Russia")]
+        [DataRow("US")]
+        [DataRow("Spain")]
+        [DataRow("Portugal")]
+        public void SearchTestPositive(string searchText)
+        {
+            CNNSearchPage searchPage = new CNNSearchPage(_driver);
+            var results = searchPage.StartSearch(searchText);
+            var filteredResults = results.Where(x => x.Contains(searchText)).ToList();
+
+            Assert.IsTrue(filteredResults.Count >= results.Count / 3);
+        }
+
+        [TestMethod]
+        [DataRow("sdehsreth")]
+        [DataRow("54669852")]
+        [DataRow("!@@##^&^*(")]
+        public void SearchTestNegative(string searchText)
+        {
+            CNNSearchPage searchPage = new CNNSearchPage(_driver);
+            var results = searchPage.StartSearch(searchText);
+            
+
+            Assert.IsTrue(results.Count == 0);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _driver.Close();
         }
     }
 }

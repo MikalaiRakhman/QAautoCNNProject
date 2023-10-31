@@ -1,43 +1,30 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System.Linq;
-
 
 namespace QAautoCNNProject
 {
-    public class CNNHomePage
-    {
-        IWebDriver _webDriver;
+    public class CNNHomePage : CNNBasePage
+    {        
         const string HOME_PAGE_URL = "https://edition.cnn.com/";
-        public CNNHomePage(IWebDriver _driver) 
+        const string MENU_POINTS_XPATH = "//a[contains (@class, 'header__nav-item-link' )]";
+        IWebDriver driver;
+
+
+        public CNNHomePage(IWebDriver driver) : base(driver, HOME_PAGE_URL)
         {
-            _webDriver = _driver;
-            _webDriver.Url = HOME_PAGE_URL;
-            _webDriver.Manage().Window.Maximize();
-
-            WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]")));
-
-            // Accept all coockies
-            _webDriver.FindElement(By.XPath("//*[@id=\"onetrust-accept-btn-handler\"]")).Click();
-            
-            
+            this.driver = driver;
         }
 
         public bool CheckPageLink(string keyWord)
         {
-            WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(5));
-            string xPath = "//a[contains (@class, 'header__nav-item-link' )]";
+
+            var menuItem = GetElementsByXPath(MENU_POINTS_XPATH).Where(x => x.Displayed && x.Enabled && x.Text == keyWord).First();
             
-            var menuItem = wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath(xPath)))
-                               .Where(x => x.Displayed && x.Enabled && x.Text.Contains(keyWord)).First();
-
             menuItem.Click();
-            string title = _webDriver.Title;
-            string newUrl = _webDriver.Url;
-            _webDriver.Navigate().Back();
-
+            
+            string title = driver.Title;
+            string newUrl = driver.Url;
+            driver.Navigate().Back();
+            
             return title.Contains(keyWord) && newUrl.Contains(keyWord.ToLower());
         }
 

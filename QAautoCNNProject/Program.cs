@@ -19,6 +19,12 @@ namespace QAautoCNNProject
                 results.Add($"Result for {pointName} is  {homePage.CheckPageLink(pointName)}");
             }
 
+            CNNSearchPage searchPage = new CNNSearchPage(driver);
+            searchPage.StartSearch("Belarus");
+
+
+
+
             driver.Close();
         }
     }
