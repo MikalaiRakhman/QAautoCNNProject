@@ -9,20 +9,18 @@ namespace QAautoCNNProject
         static void Main(string[] args)
         {
             IWebDriver driver = new ChromeDriver();
-
+            
             CNNHomePage homePage = new CNNHomePage(driver);
-
+            
             var allPointNames = new List<string> { "US", "World", "Politics", "Business", "Opinion", "Health", "Entertainment", "Style", "Travel", "Sports", "Video" };
             var results = new List<string>();
             foreach (var pointName in allPointNames) 
             {
                 results.Add($"Result for {pointName} is  {homePage.CheckPageLink(pointName)}");
             }
-            /*
+            
             CNNSearchPage searchPage = new CNNSearchPage(driver);
-            searchPage.StartSearch("Belarus");
-            */
-
+            searchPage.SearchElementsList("Poland");
 
 
             driver.Close();

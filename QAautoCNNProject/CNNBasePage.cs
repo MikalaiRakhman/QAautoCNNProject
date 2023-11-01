@@ -1,13 +1,7 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using OpenQA.Selenium.Chrome;
+
 
 namespace QAautoCNNProject
 {
@@ -17,7 +11,12 @@ namespace QAautoCNNProject
         WebDriverWait _wait;
 
         const string ACCEPT_BUTTON_XPATH = "//*[@id=\"onetrust-accept-btn-handler\"]";
-        const string MENU_POINTS_XPATH = "//a[contains (@class, 'header__nav-item-link' )]";
+        public const string MENU_POINTS_XPATH = "//a[contains (@class, 'header__nav-item-link' )]";
+        public const string HOME_PAGE_URL = "https://edition.cnn.com/";
+        public const string SEARCH_PAGE_CNN = "https://edition.cnn.com/search";
+        public const string SEARCH_PLACEHOLDER = "//input[@type='text' and @class = 'search__input']";
+        public const string SEARCH_BUTTON = "//button[@class='search__button icon icon--search']";
+        public const string SEARCH_RESULT_ELEMENTS = "//div[contains(@data-uri,'/_components/card/instances/')]";
         public CNNBasePage(IWebDriver _driver, string url)
         {
             _webDriver = _driver;
@@ -53,6 +52,11 @@ namespace QAautoCNNProject
         public void NavigateBack()
         {
             _webDriver.Navigate().Back();
+        }
+
+        public void WaitUntilElementVisibleByXPath(string xPath)
+        {
+            _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xPath)));
         }
 
         

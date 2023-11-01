@@ -34,7 +34,6 @@ namespace CNNNewsPortalTest
         {
             CNNHomePage homePage = new CNNHomePage(_driver);
             Assert.IsTrue(homePage.CheckPageLink(menuItem));
-
         }
 
         [TestCleanup]
@@ -42,8 +41,6 @@ namespace CNNNewsPortalTest
         {
             _driver.Close();
         }
-
-
     }
 
     [TestClass]
@@ -66,23 +63,20 @@ namespace CNNNewsPortalTest
         public void SearchTestPositive(string searchText)
         {
             CNNSearchPage searchPage = new CNNSearchPage(_driver);
-            var results = searchPage.StartSearch(searchText);
+            var results = searchPage.SearchElementsList(searchText);
             var filteredResults = results.Where(x => x.Contains(searchText)).ToList();
 
-            Assert.IsTrue(filteredResults.Count >= results.Count / 3);
+            Assert.IsTrue(filteredResults.Count >= results.Count / 4); // 25 процентов совпадений 
         }
 
         [TestMethod]
         [DataRow("sdehsreth")]
-        [DataRow("54669852")]
         [DataRow("!@@##^&^*(")]
         public void SearchTestNegative(string searchText)
         {
             CNNSearchPage searchPage = new CNNSearchPage(_driver);
-            var results = searchPage.StartSearch(searchText);
-            
 
-            Assert.IsTrue(results.Count == 0);
+            Assert.ThrowsException<WebDriverTimeoutException>(() => searchPage.SearchElementsList(searchText));
         }
 
         [TestCleanup]

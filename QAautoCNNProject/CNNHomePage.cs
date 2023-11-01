@@ -4,11 +4,6 @@ namespace QAautoCNNProject
 {
     public class CNNHomePage : CNNBasePage
     {        
-        const string HOME_PAGE_URL = "https://edition.cnn.com/";
-        const string MENU_POINTS_XPATH = "//a[contains (@class, 'header__nav-item-link' )]";
-        IWebDriver driver;
-
-
         public CNNHomePage(IWebDriver driver) : base(driver, HOME_PAGE_URL)
         {
 
