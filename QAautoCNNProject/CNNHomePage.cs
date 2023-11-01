@@ -11,21 +11,17 @@ namespace QAautoCNNProject
 
         public CNNHomePage(IWebDriver driver) : base(driver, HOME_PAGE_URL)
         {
-            this.driver = driver;
+
         }
 
         public bool CheckPageLink(string keyWord)
         {
-
             var menuItem = GetElementsByXPath(MENU_POINTS_XPATH).Where(x => x.Displayed && x.Enabled && x.Text == keyWord).First();
-            
             menuItem.Click();
-            
-            string title = driver.Title;
-            string newUrl = driver.Url;
-            driver.Navigate().Back();
-            
-            return title.Contains(keyWord) && newUrl.Contains(keyWord.ToLower());
+            bool validTitle = IsTitleValid(keyWord);
+            bool validUrl = IsUrlValid(keyWord.ToLower());
+            NavigateBack();
+            return validTitle && validUrl;
         }
 
     }
