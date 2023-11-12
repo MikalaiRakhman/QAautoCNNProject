@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-
 namespace QAautoCNNProject
 {
     public class CNNHomePage : CNNBasePage

@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-
-
 namespace QAautoCNNProject
 {
     public class CNNSearchPage : CNNBasePage
